@@ -1,0 +1,1 @@
+export type TokenPair = Record<string, number>;
