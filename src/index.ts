@@ -7,7 +7,7 @@ import { Suite } from "./suite";
 import {
   saveAccountsToCache,
   loadAccountsFromCache,
-} from "./utils/importAccount";
+} from "./utils/loadAccount";
 import { createRandomAccount } from "./utils";
 
 async function main() {
@@ -25,7 +25,7 @@ async function main() {
   accounts = loadAccountsFromCache();
 
   if (accounts.length === 0) {
-    const temp = range(0, 100).map(
+    const temp = range(0, 10000).map(
       createRandomAccount.bind(undefined, {}, "sr25519")
     );
 
@@ -47,9 +47,12 @@ async function main() {
   );
 
   try {
-    const result = suite.send(suite.sudo, suite.sudoWarpper(updateAcaBalances));
+    const result = suite.send(
+      suite.sudo,
+      updateAcaBalances.map(suite.sudoWarpper)
+    );
 
-    await result.isFinalize;
+    await result;
   } catch (e) {
     console.log(e);
   }
@@ -65,9 +68,12 @@ async function main() {
   );
 
   try {
-    const result = suite.send(suite.sudo, suite.sudoWarpper(updateDotBalances));
+    const result = suite.send(
+      suite.sudo,
+      updateDotBalances.map(suite.sudoWarpper)
+    );
 
-    await result.isFinalize;
+    await result;
   } catch (e) {
     console.log(e);
   }
@@ -81,7 +87,7 @@ async function main() {
         "0"
       );
 
-      return suite.send(account, tx).isFinalize;
+      return suite.send(account, tx);
     })
   );
 

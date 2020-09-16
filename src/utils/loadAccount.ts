@@ -7,9 +7,12 @@ import { ensureCacheDir } from './cache';
 export function loadAccountsFromCache () {
     const cachePath = ensureCacheDir();
 
-    const cachedAccount = fs.readFileSync(path.resolve(cachePath, 'accounts.json'), { encoding: 'utf-8' });
-
-    return (JSON.parse(cachedAccount) as string[]).map(createAccountFromMnemonic);
+    try {
+        const cachedAccount = fs.readFileSync(path.resolve(cachePath, 'accounts.json'), { encoding: 'utf-8' });
+        return (JSON.parse(cachedAccount) as string[]).map(createAccountFromMnemonic);
+    } catch (e) {
+        return []
+    }
 }
 
 export function saveAccountsToCache (mnemonics: string[]) {
