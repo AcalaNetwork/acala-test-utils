@@ -13,13 +13,10 @@ type KeyringPairType = "mnemonic" | "seed" | "uri";
 
 export class Suite {
   public api!: ApiPromise;
-  public sudo: KeyringPair;
+  public sudo!: KeyringPair;
   private maxBatchTxNum = 100;
 
   constructor() {
-    // use alice for the default sudo account
-    this.importSudo("uri", "//Alice");
-
     this.sudoWarpper = this.sudoWarpper.bind(this);
     this.batchWrapper = this.batchWrapper.bind(this);
     this.send = this.send.bind(this);
@@ -32,6 +29,9 @@ export class Suite {
   async connect(endpoint: string) {
     await cryptoIsReady();
 
+    // use alice for the default sudo account
+    this.importSudo("uri", "//Alice");
+
     const provider = new WsProvider(endpoint);
     this.api = await ApiPromise.create(options({ provider }));
     this.log("connect to acala");
@@ -41,7 +41,7 @@ export class Suite {
     return this.api.isReady;
   }
 
-  private async waitConncetedWrapper(fn: any) {
+  async waitConncetedWrapper(fn: any) {
     await this.api.connect;
 
     return fn;

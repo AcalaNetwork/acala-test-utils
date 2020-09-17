@@ -36,47 +36,47 @@ async function main() {
 
   console.log("load accounts success");
 
-  const updateAcaBalances = suite.batchWrapper(
-    accounts.map((account) =>
-      suite.api.tx.currencies.updateBalance(
-        account.address,
-        "ACA",
-        Fixed18.fromNatural(10000).innerToString()
-      )
-    )
-  );
+//   const updateAcaBalances = suite.batchWrapper(
+//     accounts.map((account) =>
+//       suite.api.tx.currencies.updateBalance(
+//         account.address,
+//         "ACA",
+//         Fixed18.fromNatural(10000).innerToString()
+//       )
+//     )
+//   );
 
-  try {
-    const result = suite.send(
-      suite.sudo,
-      updateAcaBalances.map(suite.sudoWarpper)
-    );
+//   try {
+//     const result = suite.send(
+//       suite.sudo,
+//       updateAcaBalances.map(suite.sudoWarpper)
+//     );
 
-    await result;
-  } catch (e) {
-    console.log(e);
-  }
+//     await result;
+//   } catch (e) {
+//     console.log(e);
+//   }
 
-  const updateDotBalances = suite.batchWrapper(
-    accounts.map((account) =>
-      suite.api.tx.currencies.updateBalance(
-        account.address,
-        "DOT",
-        Fixed18.fromNatural(10000).innerToString()
-      )
-    )
-  );
+//   const updateDotBalances = suite.batchWrapper(
+//     accounts.map((account) =>
+//       suite.api.tx.currencies.updateBalance(
+//         account.address,
+//         "DOT",
+//         Fixed18.fromNatural(10000).innerToString()
+//       )
+//     )
+//   );
 
-  try {
-    const result = suite.send(
-      suite.sudo,
-      updateDotBalances.map(suite.sudoWarpper)
-    );
+//   try {
+//     const result = suite.send(
+//       suite.sudo,
+//       updateDotBalances.map(suite.sudoWarpper)
+//     );
 
-    await result;
-  } catch (e) {
-    console.log(e);
-  }
+//     await result;
+//   } catch (e) {
+//     console.log(e);
+//   }
 
   // update position
   await Promise.all(
@@ -87,7 +87,7 @@ async function main() {
         "0"
       );
 
-      return suite.send(account, tx);
+      return suite.send(account, tx).then(console.log.bind(undefined));
     })
   );
 

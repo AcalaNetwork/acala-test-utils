@@ -7,7 +7,7 @@ export function feedPrices(suite: Suite) {
     ACA: Fixed18.fromNatural(20).innerToString(),
     DOT: Fixed18.fromNatural(6).innerToString(),
     XBTC: Fixed18.fromNatural(10000).innerToString(),
-    RBTC: Fixed18.fromNatural(10000).innerToString(),
+    RENBTC: Fixed18.fromNatural(10000).innerToString(),
   };
 
   return suite.send(
