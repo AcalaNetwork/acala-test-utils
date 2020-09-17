@@ -12,10 +12,8 @@ export function feedPrices(suite: Suite) {
 
   return suite.send(
     suite.sudo,
-    suite.sudoWarpper(
-      suite.api.tx.acalaOracle.feedValues(
-        Object.keys(prices).map((i) => [i, prices[i]])
-      )
+    suite.api.tx.acalaOracle.feedValues(
+      Object.keys(prices).map((i) => [i, prices[i]])
     )
   );
 }
