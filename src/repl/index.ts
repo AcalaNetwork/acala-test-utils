@@ -8,7 +8,7 @@ async function main () {
 
     const suite = new Suite();
 
-    await suite.connect('ws://localhost:9944');
+    await suite.connect('ws://192.168.145.131:9944');
 
     const local = rpel.start('acala rpel ->');
 

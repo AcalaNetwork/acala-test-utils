@@ -27,3 +27,18 @@ export async function createLoans(
     )
   );
 }
+
+export async function positions(suite:Suite, currencyId:string, account: KeyringPair,) {
+  const postions = await suite.api.query.loans.positions(
+    currencyId,
+    account.address
+  )
+  return positions
+}
+
+export async function totalPositions(suite:Suite, currencyId:string) {
+  const totalPositions = await suite.api.query.loans.totalPositions(
+    currencyId
+  )
+  return totalPositions
+}

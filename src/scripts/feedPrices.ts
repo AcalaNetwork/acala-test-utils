@@ -2,6 +2,7 @@ import { Fixed18 } from "@acala-network/app-util";
 
 import { Suite } from "../suite";
 
+// 喂价
 export function feedPrices(suite: Suite) {
   const prices: Record<string, string> = {
     ACA: Fixed18.fromNatural(20).innerToString(),
