@@ -1,4 +1,4 @@
-import * as loan from '../src/loan';
+import * as loan from '../calculation';
 import { Fixed18 } from '@acala-network/app-util'
 
 describe('calculate loan properties', () => {
