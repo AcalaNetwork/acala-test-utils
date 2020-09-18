@@ -2,49 +2,49 @@
 # yarn lockfile v1
 
 
-"@acala-network/api-derive@^0.4.0-beta.6":
-  version "0.4.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@acala-network/api-derive/-/api-derive-0.4.0-beta.6.tgz#14b023d8b0c0e17e0407ac077a7d187e54b02204"
-  integrity sha512-uc2qvmkAeCCChMQv5W0CLE3kDPUx99uMqach9UWysZczMFlmq95J/m9IQ3xKeHqOdpBzyGjRd4cI+C/WAXMRzQ==
+"@acala-network/api-derive@^0.4.0-beta.7":
+  version "0.4.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@acala-network/api-derive/-/api-derive-0.4.0-beta.7.tgz#6c6d714a36817f44eab63ba3b3ff35abc96f16ed"
+  integrity sha512-pJhGqmGj1s0SbibSnLJFifSy7OUPohWTmklRbA+rDZtc0w2p2rsQCckRIn/11RIcb3Gn6ktexd+kssPlEdtILw==
   dependencies:
-    "@acala-network/types" "^0.4.0-beta.6"
+    "@acala-network/types" "^0.4.0-beta.7"
     "@babel/runtime" "^7.10.2"
     "@polkadot/api-derive" "^1.32.1"
     rxjs "^6.5.5"
 
-"@acala-network/api@^0.4.0-beta.6":
-  version "0.4.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@acala-network/api/-/api-0.4.0-beta.6.tgz#80909feba60b9d3dba687917236622ac686759b1"
-  integrity sha512-yDE3T5yhUUbQ8Sn0U0MHLlBb98ADf1Bpzr6RPw62XadRkuspbei/nkJZyE4U6fx9ek8tJCN+qMx8AuX5AO7zeA==
+"@acala-network/api@^0.4.0-beta.7":
+  version "0.4.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@acala-network/api/-/api-0.4.0-beta.7.tgz#090009be740950a50522b466945db9b9ff9d42fd"
+  integrity sha512-6qm+NTBAB4WmwGSe5LBwXqP8+6XZwn7Rac9trQ93uXadsWIscy+/sgE34v7elvtsTKufqrRUMFMvJPfCF2Ebow==
   dependencies:
-    "@acala-network/api-derive" "^0.4.0-beta.6"
-    "@acala-network/types" "^0.4.0-beta.6"
+    "@acala-network/api-derive" "^0.4.0-beta.7"
+    "@acala-network/types" "^0.4.0-beta.7"
     "@babel/runtime" "^7.10.2"
     "@open-web3/orml-api-derive" "^0.6.0-beta.12"
     "@polkadot/api" "^1.32.1"
     "@polkadot/rpc-core" "^1.32.1"
 
-"@acala-network/app-util@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@acala-network/app-util/-/app-util-0.3.1.tgz#78cdd920f4220d4904ea45fa12bbc84ce7de57c2"
-  integrity sha512-z7mV/nwuXQ3gaf/70qfIDMsqlln46YGWHwSOHz8YixJlcVjEuqTc3UrrRgit8njxjfsEluzJKs53uyLFYpMjKw==
+"@acala-network/app-util@^0.4.0-beta.7":
+  version "0.4.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@acala-network/app-util/-/app-util-0.4.0-beta.7.tgz#9e39b8d6cc027b9986ca73d491c11557cff16cca"
+  integrity sha512-Gqzjq21MOp0WKhuiHvENCaLh/DHyQjoiUFyDJeYoLf2bk7g8DUS6RFzelbOLVFYGMiAeyfQwqxbmacWul60JHg==
   dependencies:
     "@babel/runtime" "^7.10.2"
     bignumber.js "^9.0.0"
 
-"@acala-network/type-definitions@^0.4.0-beta.6":
-  version "0.4.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@acala-network/type-definitions/-/type-definitions-0.4.0-beta.6.tgz#c21f6a296d87e42f733c6d076a4faee7d6b55c8d"
-  integrity sha512-xtoMckE44OmuRCPfPmBW7c7gJDCPUsyyA0b0gtOvWomnqDH6gruisSYgoVU7AYFmC1IXnAxCK4/km1pFAAg17g==
+"@acala-network/type-definitions@^0.4.0-beta.7":
+  version "0.4.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@acala-network/type-definitions/-/type-definitions-0.4.0-beta.7.tgz#ccf341e3ee0cb487d7c84d9cfdf6935e046c5616"
+  integrity sha512-cCLCcCdyiLZNCyCQ4P27Bvb7UCQiA5+CmrUe5rtodvt7c7/LlAt27iHlkkSvljtcOg83dwB4TiG4iOT+Rh7UeA==
   dependencies:
     "@open-web3/orml-type-definitions" "^0.6.0-beta.12"
 
-"@acala-network/types@^0.4.0-beta.6":
-  version "0.4.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.4.0-beta.6.tgz#1840cd485c7620cd25afd4615db82b9f31ce1f4f"
-  integrity sha512-ejY3ts6p8OGRm+5REHq4sAyexeYVQXV/oXuDs93aeDMVMfLoE9HbxDHsOaIKKJ+B0uhRpYsogywfS3sjPy592A==
+"@acala-network/types@^0.4.0-beta.7":
+  version "0.4.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@acala-network/types/-/types-0.4.0-beta.7.tgz#10ae48c65f0adcbfbba4bc977abe9687cd44ddf0"
+  integrity sha512-CGYmLyDo/3SJXGhwrZqkoQciNLc/Z3cRn6ObPsgjrU5Jwz821iMvWiB/l9rky+U5rbxdwKLLawvWjmTVIgzKKg==
   dependencies:
-    "@acala-network/type-definitions" "^0.4.0-beta.6"
+    "@acala-network/type-definitions" "^0.4.0-beta.7"
     "@babel/runtime" "^7.10.2"
     "@open-web3/api-mobx" "^0.6.0-beta.12"
     "@open-web3/orml-types" "^0.6.0-beta.12"

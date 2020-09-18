@@ -4,6 +4,7 @@ import { ApiPromise } from '@polkadot/api';
 
 
 beforeEach(()=>{
+  
   console.log("清空环境")
 })
 
