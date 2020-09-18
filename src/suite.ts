@@ -1,8 +1,10 @@
 import { WsProvider, ApiPromise, Keyring } from "@polkadot/api";
 import { chunk } from "lodash";
+import { of, range } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { options } from "@acala-network/api";
 import { KeyringPair } from "@polkadot/keyring/types";
-import { cryptoIsReady } from "@polkadot/util-crypto";
+import { cryptoWaitReady } from "@polkadot/util-crypto";
 import { SubmittableExtrinsic } from "@polkadot/api/types";
 import { ITuple } from "@polkadot/types/types";
 import { DispatchError } from "@polkadot/types/interfaces";
@@ -27,7 +29,7 @@ export class Suite {
   }
 
   async connect(endpoint: string) {
-    await cryptoIsReady();
+    await cryptoWaitReady();
 
     // use alice for the default sudo account
     this.importSudo("uri", "//Alice");
@@ -85,6 +87,7 @@ export class Suite {
     account: KeyringPair,
     tx: SubmittableExtrinsic<"promise">[]
   ): Promise<boolean>;
+
   send(
     account: KeyringPair,
     tx: SubmittableExtrinsic<"promise">
@@ -107,6 +110,14 @@ export class Suite {
     }
 
     return this.singleSend(account, tx as SubmittableExtrinsic<"promise">);
+  }
+
+  async batchSend (params: [KeyringPair, SubmittableExtrinsic<"promise">][], concurrent: number = 10) {
+    return range(0, params.length).pipe(
+      mergeMap((index) => {
+        return of(() => this.send.apply(this, params[index]));
+      }, concurrent)
+    ).toPromise();
   }
 
   singleSend(

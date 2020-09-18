@@ -2,18 +2,15 @@ import { Fixed18 } from "@acala-network/app-util";
 
 import { Suite } from "../suite";
 
-export function feedPrices(suite: Suite) {
-  const prices: Record<string, string> = {
-    ACA: Fixed18.fromNatural(20).innerToString(),
-    DOT: Fixed18.fromNatural(6).innerToString(),
-    XBTC: Fixed18.fromNatural(10000).innerToString(),
-    RENBTC: Fixed18.fromNatural(10000).innerToString(),
-  };
+type Prices  = Record<string, number>;
+
+export function feedPrices(suite: Suite, prices: Prices = { ACA: 20, DOT: 6, XBTC: 100000, RENBTC: 100000 } ) {
+  const _prices = Object.keys(prices).map((key) => {
+    return [key, Fixed18.fromNatural(prices[key]).innerToString()];
+  });
 
   return suite.send(
     suite.sudo,
-    suite.api.tx.acalaOracle.feedValues(
-      Object.keys(prices).map((i) => [i, prices[i]])
-    )
+    suite.sudoWarpper(suite.api.tx.acalaOracle.feedValues(_prices))
   );
 }

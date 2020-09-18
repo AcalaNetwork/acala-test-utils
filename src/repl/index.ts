@@ -1,16 +1,14 @@
 import rpel from 'repl';
+
 import { Suite } from '../suite';
 import * as scripts from '../scripts';
-import { cryptoIsReady, cryptoWaitReady } from "@polkadot/util-crypto";
 
 async function main () {
-    await cryptoWaitReady();
-
     const suite = new Suite();
 
     await suite.connect('ws://localhost:9944');
 
-    const local = rpel.start('acala rpel ->');
+    const local = rpel.start('acala repl ->');
 
     // set suite to global
     local.context.suite = suite;

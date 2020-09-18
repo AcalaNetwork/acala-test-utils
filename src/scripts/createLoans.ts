@@ -10,9 +10,7 @@ export async function createLoans(
   deposit: number,
   borrow: number
 ) {
-  const debitExchange = await suite.api.query.cdpEngine.debitExchangeRate(
-    asset
-  );
+  const debitExchange = await suite.api.query.cdpEngine.debitExchangeRate(asset);
 
   return suite.send(
     account,
