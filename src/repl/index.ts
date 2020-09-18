@@ -1,7 +1,7 @@
 import rpel from 'repl';
 
 import { Suite } from '../suite';
-import * as scripts from '../scripts';
+import * as actions from '../actions';
 
 async function main () {
     const suite = new Suite();
@@ -14,7 +14,7 @@ async function main () {
     local.context.suite = suite;
 
     // set scripts to global
-    local.context.helpers = scripts;
+    local.context.actions = actions;
 };
 
 main();

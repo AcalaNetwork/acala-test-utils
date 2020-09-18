@@ -11,6 +11,6 @@ export function feedPrices(suite: Suite, prices: Prices = { ACA: 20, DOT: 6, XBT
 
   return suite.send(
     suite.sudo,
-    suite.sudoWarpper(suite.api.tx.acalaOracle.feedValues(_prices))
+    suite.api.tx.acalaOracle.feedValues(_prices)
   );
 }
