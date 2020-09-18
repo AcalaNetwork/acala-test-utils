@@ -9,7 +9,7 @@ export async function queryLuidityPool(suite:Suite,currencyId:string) {
     const pool = await suite.api.query.dex.liquidityPool(
       currencyId
     )
-    const pooList = [convertToFixed18(pool[0]).toNumber(), convertToFixed18(pool[1]).toNumber()]
+    const pooList = [convertToFixed18((pool as any)[0]).toNumber(), convertToFixed18((pool as any)[1]).toNumber()]
     console.log(pooList)
     return pooList
   }

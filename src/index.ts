@@ -2,8 +2,8 @@ import { range } from "lodash";
 import { Fixed18 } from "@acala-network/app-util";
 import { KeyringPair } from "@polkadot/keyring/types";
 import * as utils from "./utils";
-
 import { Suite } from "./suite";
+import { queryLuidityPool } from ".//scripts/dexAddLiquidity"
 import {
   saveAccountsToCache,
   loadAccountsFromCache,
@@ -14,27 +14,29 @@ async function main() {
   const suite = new Suite();
 
   console.log("start connect to acala");
-  await suite.connect("ws://localhost:9944");
+  await suite.connect("ws://192.168.145.131:9944");
 
   await suite.isReady();
 
   suite.importSudo("uri", "//Alice");
 
-  let accounts: KeyringPair[];
+  queryLuidityPool(suite, "ACA")
 
-  accounts = loadAccountsFromCache();
+  // let accounts: KeyringPair[];
 
-  if (accounts.length === 0) {
-    const temp = range(0, 10000).map(
-      createRandomAccount.bind(undefined, {}, "sr25519")
-    );
+  // accounts = loadAccountsFromCache();
 
-    saveAccountsToCache(temp.map((i) => i[1]));
+  // if (accounts.length === 0) {
+  //   const temp = range(0, 10000).map(
+  //     createRandomAccount.bind(undefined, {}, "sr25519")
+  //   );
 
-    accounts = temp.map((i) => i[0]);
-  }
+  //   saveAccountsToCache(temp.map((i) => i[1]));
 
-  console.log("load accounts success");
+  //   accounts = temp.map((i) => i[0]);
+  // }
+
+  // console.log("load accounts success");
 
 //   const updateAcaBalances = suite.batchWrapper(
 //     accounts.map((account) =>
@@ -79,19 +81,20 @@ async function main() {
 //   }
 
   // update position
-  await Promise.all(
-    accounts.map((account) => {
-      const tx = suite.api.tx.honzon.adjustLoan(
-        "DOT",
-        Fixed18.fromNatural(1).innerToString(),
-        "0"
-      );
 
-      return suite.send(account, tx).then(console.log.bind(undefined));
-    })
-  );
+//   await Promise.all(
+//     accounts.map((account) => {
+//       const tx = suite.api.tx.honzon.adjustLoan(
+//         "DOT",
+//         Fixed18.fromNatural(1).innerToString(),
+//         "0"
+//       );
 
-  console.log("update position success");
+//       return suite.send(account, tx).then(console.log.bind(undefined));
+//     })
+//   );
+
+//   console.log("update position success");
 }
 
 main();

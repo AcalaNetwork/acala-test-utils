@@ -36,7 +36,6 @@ describe('fixed 128 constructor', () => {
 describe('toFixed should work', () => {
   const a = Fixed18.fromNatural(0.123456789);
   const b = Fixed18.fromNatural(0.00000000001);
-
   expect(a.toFixed(6)).toEqual('0.123456');
   expect(a.toFixed(9)).toEqual('0.123456789');
   expect(b.toFixed(11)).toEqual('0.00000000001');
