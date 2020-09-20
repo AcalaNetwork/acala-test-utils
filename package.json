@@ -2,6 +2,7 @@
   "name": "acala-test-suite",
   "version": "1.0.0",
   "main": "index.js",
+  "license": "ISC",
   "dependencies": {
     "@acala-network/api": "^0.4.0-beta.7",
     "@acala-network/app-util": "^0.4.0-beta.7",
