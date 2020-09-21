@@ -32,7 +32,7 @@ async function SwapTargetTest(swapType:string, direction:number, supplyPool: num
   await dexServer.dexAddLiquidity(suite, addAccount, "ACA", supplyPool, targetPool)
   await dexServer.queryLuidityPool(suite, "ACA")
   // 兑换 10000 个 AUSD 出来
-  await dexServer.swapAmount("target", 1, suite, account, fee, slippage, supply, "ACA", "AUSD")
+  await dexServer.swapAmount(swapType, direction, suite, account, fee, slippage, supply, "ACA", "AUSD")
 
   console.log("address info: \n" +  JSON.stringify({address: account.address, ACA: 20000, AUSD:20000}))
   console.log("case data: " + "\n" + JSON.stringify({"supplyPool": supplyPool, "targetPool": targetPool, "supply": supply}))
@@ -52,7 +52,8 @@ async function SwapTargetTest(swapType:string, direction:number, supplyPool: num
   }
   console.log("实际兑换得到的值：" + (actual - 20000))
   console.log("calcSwapTargetAmount 应得到的值：" + calcSwapTargetAmount(supply, supplyPool, targetPool, fee, slippage))
-  console.log("dex 计算公式应得到的值果：" + (1 - slippage.toNumber()) * (1 - fee.toNumber()) * (targetPool - (supplyPool * targetPool) / (supplyPool + supply)))
+  const res = "target" ? (1 - slippage.toNumber()) * (1 - fee.toNumber()) * (targetPool - (supplyPool * targetPool) / (supplyPool + supply)) : (1 - slippage.toNumber()) * targetPool * supplyPool / (targetPool - supply / (1 -  fee.toNumber())) - supplyPool
+  console.log("dex 计算公式应得到的值果：" + res)
   await dexServer.queryLuidityPool(suite, "ACA")
 }
 
@@ -121,10 +122,75 @@ async function SwapTargetTest_06() {
   await SwapTargetTest("target", otherTOBase, supplyPool, targetPool, supply)
 }
 
+// supply Test
+async function SwapSupplyTest_01() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 10000;
+  const targetPool = 10000;
+  const supply = 10000;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
+
+//should return 0 when target pool is 1
+async function SwapSupplyTest_02() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 10000;
+  const targetPool = 1;
+  const supply = 10000;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
+
+//should return 0 when supply pool is too big
+async function SwapSupplyTest_03() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 100;
+  const targetPool = 100;
+  const supply = 9901;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
+
+//should no fees when target amount is too small
+async function SwapSupplyTest_04() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 100;
+  const targetPool = 100;
+  const supply = 9900;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
+
+
+async function SwapSupplyTest_05() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 1;
+  const targetPool = 100;
+  const supply = 9900;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
+
+async function SwapSupplyTest_06() {
+  const swapType = "supply"
+  const otherTOBase = 1
+  // 准备数据
+  const supplyPool = 100;
+  const targetPool = 100;
+  const supply = 0;
+  await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
+}
 
 
 
-SwapTargetTest_05().catch(console.error).finally(() => process.exit());
+
+SwapSupplyTest_01().catch(console.error).finally(() => process.exit());
 
 // describe('calcault target amount',() => {
 
