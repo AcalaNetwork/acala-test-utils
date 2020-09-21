@@ -28,7 +28,7 @@ export class Suite {
     this.maxBatchTxNum = value;
   }
 
-  async connect(endpoint: string) {
+  async connect(endpoint: string = 'ws://localhost:9944') {
     await cryptoWaitReady();
 
     // use alice for the default sudo account
@@ -134,7 +134,7 @@ export class Suite {
     const isFinalize = new Deferred<boolean>();
 
     tx.signAndSend(account, (result) => {
-      if (result.isFinalized) {
+      if (result.isInBlock) {
         isFinalize.resolve(true);
       }
 

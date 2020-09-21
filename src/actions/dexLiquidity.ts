@@ -1,7 +1,7 @@
 import { Fixed18, calcTargetInOtherToBase, calcTargetInBaseToOther,convertToFixed18 ,calcSupplyInOtherToOther, calcTargetInOtherToOther, calcSupplyInOtherToBase, calcSupplyInBaseToOther} from "@acala-network/app-util";
 import { KeyringPair } from "@polkadot/keyring/types";
 import { Suite } from "../suite";
-import { feedPrices } from "./feedPrices";
+// import { feedPrices } from "../actions/feedPrices";
 
 
 // 查询流动性池子

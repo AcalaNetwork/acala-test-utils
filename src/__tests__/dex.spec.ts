@@ -1,7 +1,7 @@
 import { Fixed18 , calcSwapTargetAmount, calcSwapSupplyAmount, convertToFixed18} from '@acala-network/app-util'
 import { ApiPromise } from '@polkadot/api';
-import * as dexServer from '../scripts/dexAddLiquidity'
-import { updateBalances } from '../scripts/updateBalances'
+import * as dexServer from '../actions/dexLiquidity'
+import { updateBalances } from '../actions/updateBalances'
 import { Suite } from "../suite";
 import { createRandomAccount } from '../utils/createAccount'
 import { add, assignWith } from 'lodash';

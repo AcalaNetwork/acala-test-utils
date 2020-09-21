@@ -11,6 +11,7 @@ export async function createLoans(
   borrow: number
 ) {
   const debitExchange = await suite.api.query.cdpEngine.debitExchangeRate(asset);
+  const defaultDebitExchange = suite.api.consts.cdpEngine.defaultDebitExchangeRate;
 
   return suite.send(
     account,
@@ -19,9 +20,9 @@ export async function createLoans(
       Fixed18.fromNatural(deposit).innerToString(),
       USDToDebit(
         Fixed18.fromNatural(borrow),
-        convertToFixed18(debitExchange),
+        convertToFixed18(debitExchange.isEmpty ? defaultDebitExchange : debitExchange),
         Fixed18.fromNatural(1)
-      )
+      ).innerToString()
     )
   );
 }
