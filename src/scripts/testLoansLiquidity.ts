@@ -16,15 +16,13 @@ import { Suite } from "../suite";
     await setupLoans(suite);
     console.log('setup loans params success');
 
-    const accounts = range(0, 10).map(generateRandomAccount).map(i => i[0]);
+    const accounts = range(0, 10000).map(generateRandomAccount).map(i => i[0]);
 
-    for (let account of accounts) {
-        await updateBalances(suite, account.address);
-    }
+    await updateBalances(suite, accounts.map(item => item.address));
 
     console.log('update balances success');
 
-    for (let account of accounts) {
+    await Promise.all(accounts.map(async account => {
         await createLoans(suite, account, 'DOT', 1, 6 / 1.6);
         console.log(`update ${account.address} DOT loan`);
 
@@ -33,11 +31,11 @@ import { Suite } from "../suite";
 
         await createLoans(suite, account, 'RENBTC', 1, 10000 / 1.6);
         console.log(`update ${account.address} RENBTC loan`);
-    }
+    }));
 
     console.log('setup success');
 
-    await feedPrices(suite,  { DOT: 6 * 0.1, XBTC: 10000 * 0.1, RENBTC: 10000 * 0.1 });
+    // await feedPrices(suite,  { DOT: 6 * 0.1, XBTC: 10000 * 0.1, RENBTC: 10000 * 0.1 });
 
     console.log('trigger liquidity success');
 })();

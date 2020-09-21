@@ -10,7 +10,8 @@ import { SRC } from '../utils/path';
     await suite.connect();
 
     console.log('connect success');
-    const storagesPairs = await getStorage(suite);
+    // const storagesPairs = await getStorage(suite, ['cdpEngine', 'loans', 'acalaOracle', 'system', 'tokens']);
+    const storagesPairs = await getStorage(suite, ['tokens']);
 
     fs.writeFileSync(path.resolve(SRC, '../storage.json'), JSON.stringify(storagesPairs, undefined, 2), { encoding: 'utf-8' });
 
