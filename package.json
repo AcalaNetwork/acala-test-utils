@@ -2,9 +2,10 @@
   "name": "acala-test-suite",
   "version": "1.0.0",
   "main": "index.js",
+  "license": "ISC",
   "dependencies": {
-    "@acala-network/api": "^0.4.0-beta.6",
-    "@acala-network/app-util": "^0.3.1",
+    "@acala-network/api": "^0.4.0-beta.7",
+    "@acala-network/app-util": "^0.4.0-beta.7",
     "@oclif/command": "^1.8.0",
     "@polkadot/api": "^1.33.1",
     "@polkadot/keyring": "^3.4.1",
@@ -15,11 +16,16 @@
   },
   "scripts": {
     "repl": "./node_modules/.bin/ts-node ./src/repl/index.ts",
-    "start": "./node_modules/.bin/ts-node ./src/index.ts"
+    "start": "./node_modules/.bin/ts-node ./src/index.ts",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.161",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.2",
+    "@types/jest": "^26.0.13",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.3.0"
   }
 }

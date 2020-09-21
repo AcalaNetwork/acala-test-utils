@@ -36,6 +36,13 @@ export class Suite {
 
     const provider = new WsProvider(endpoint);
     this.api = await ApiPromise.create(options({ provider }));
+    const [chain, nodeName, nodeVersion] = await Promise.all([
+      this.api.rpc.system.chain(),
+      this.api.rpc.system.name(),
+      this.api.rpc.system.version()
+    ]);
+  
+    this.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
     this.log("connect to acala");
   }
 
