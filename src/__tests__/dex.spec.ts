@@ -15,7 +15,7 @@ async function SwapTargetTest(swapType:string, direction:number, supplyPool: num
   // 获取交易手续费
   const fee = convertToFixed18(suite.api.consts.dex.getExchangeFee)
   // 滑点
-  const slippage = convertToFixed18(0.01)
+  const slippage = convertToFixed18(0.05)
   // 前端数据计算
   const received = swapType == "target" ? calcSwapTargetAmount(supply, supplyPool, targetPool, fee, slippage) : calcSwapSupplyAmount(supply, supplyPool, targetPool, fee, slippage)
   // const received = calcSwapTargetAmount(supply, supplyPool, targetPool, fee, slippage)
@@ -31,6 +31,7 @@ async function SwapTargetTest(swapType:string, direction:number, supplyPool: num
   //添加流动性
   await dexServer.dexAddLiquidity(suite, addAccount, "ACA", supplyPool, targetPool)
   await dexServer.queryLuidityPool(suite, "ACA")
+  
   // 兑换 10000 个 AUSD 出来
   await dexServer.swapAmount(swapType, direction, suite, account, fee, slippage, supply, "ACA", "AUSD")
 
@@ -51,9 +52,10 @@ async function SwapTargetTest(swapType:string, direction:number, supplyPool: num
     console.log("case failed, expected：" + expected + " actual: " + actual)
   }
   console.log("实际兑换得到的值：" + (actual - 20000))
-  console.log("calcSwapTargetAmount 应得到的值：" + calcSwapTargetAmount(supply, supplyPool, targetPool, fee, slippage))
+  const swapAmount = "target" ? calcSwapTargetAmount(supply, supplyPool, targetPool, fee, slippage):calcSwapSupplyAmount(supply, supplyPool, targetPool, fee, slippage)
+  console.log("dex 函数得到的值：" + swapAmount)
   const res = "target" ? (1 - slippage.toNumber()) * (1 - fee.toNumber()) * (targetPool - (supplyPool * targetPool) / (supplyPool + supply)) : (1 - slippage.toNumber()) * targetPool * supplyPool / (targetPool - supply / (1 -  fee.toNumber())) - supplyPool
-  console.log("dex 计算公式应得到的值果：" + res)
+  console.log("计算公式应得到的值：" + res)
   await dexServer.queryLuidityPool(suite, "ACA")
 }
 
@@ -129,7 +131,7 @@ async function SwapSupplyTest_01() {
   // 准备数据
   const supplyPool = 10000;
   const targetPool = 10000;
-  const supply = 10000;
+  const supply = 4950;
   await SwapTargetTest(swapType, otherTOBase, supplyPool, targetPool, supply)
 }
 
