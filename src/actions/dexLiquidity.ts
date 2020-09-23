@@ -1,4 +1,4 @@
-import { Fixed18, calcTargetInOtherToBase, calcTargetInBaseToOther,convertToFixed18 ,calcSupplyInOtherToOther, calcTargetInOtherToOther, calcSupplyInOtherToBase, calcSupplyInBaseToOther} from "@acala-network/app-util";
+import { Fixed18, calcTargetInOtherToBase, calcTargetInBaseToOther,convertToFixed18 ,calcSupplyInOtherToOther, calcTargetInOtherToOther, calcSupplyInOtherToBase, calcSupplyInBaseToOther } from "@acala-network/app-util";
 import { KeyringPair } from "@polkadot/keyring/types";
 import { Suite } from "../suite";
 // import { feedPrices } from "../actions/feedPrices";
@@ -25,41 +25,39 @@ export function dexAddLiquidity(suite:Suite, account: KeyringPair, asset: string
 }
 
 
-export function calcSwapTargetAmount(suite:Suite, account: KeyringPair, target: any, supply:number, otherSymbol:string, baseSymbol:string){
+export async function calcSwapAmount(suite:Suite, account: KeyringPair, supply:any, supplySymbol:string, target: any, targetSymbol:string){
     const tx = suite.api.tx.dex.swapCurrency(
-        otherSymbol,
+        supplySymbol,
         Fixed18.fromNatural(supply).innerToString(),
-        baseSymbol,
-        target.innerToString()
+        targetSymbol,
+        Fixed18.fromNatural(target).innerToString()
       )
-    return suite.send(account, tx)
+    await suite.send(account, tx)
+    return {supply: Fixed18.fromNatural(supply).toNumber(), supplySymbol:supplySymbol, target: Fixed18.fromNatural(target).toNumber(), targetSymbol: targetSymbol}
 }
 
-export async function swapAmount(swapType:string, direction:number, suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, otherSymbol:string, baseSymbol:string) {
-    const swapStatus = swapType == "target" ? true: false
+
+export async function swapAmount(swapType:string, direction:number, suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
+    console.log(swapType, direction)
+    const swapStatus = swapType == "target"
     if (swapStatus){
       switch(direction){
         case 1:
-          await targetOtherToBase(suite, account, exchangeFee, slippage, supply, otherSymbol, baseSymbol)
-          break
+          return await targetOtherToBase(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
         case 2:
-          await targetBaseToOther(suite, account, exchangeFee, slippage, supply, baseSymbol, otherSymbol)
-          break
+          return await targetBaseToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
         case 3:
-          await targetOherToOther(suite, account, exchangeFee, slippage, supply, otherSymbol, baseSymbol)
-          break
+          return await targetOherToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
       }
     }else{
       switch(direction){
         case 1:
-          await supplyOtherToBase(suite, account, exchangeFee, slippage, supply, otherSymbol, baseSymbol)
-          break
+          return await supplyOtherToBase(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
         case 2:
-          await supplyBaseToOther(suite, account, exchangeFee, slippage, supply, baseSymbol, otherSymbol)
-          break
+          return await supplyBaseToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
         case 3:
-          await supplyOtherToOther(suite, account, exchangeFee, slippage, supply, otherSymbol, baseSymbol)
-          break
+          return await supplyOtherToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
+    
       }
 
     }
@@ -67,22 +65,26 @@ export async function swapAmount(swapType:string, direction:number, suite:Suite,
 }
 
 // other -=-> base
-export async function supplyOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, otherSymbol:string, baseSymbol:string){
-    const pool = await(suite.api.derive as any).dex.pool(otherSymbol)
-    const target = calcSupplyInOtherToBase(
-        convertToFixed18(supply),
+export async function supplyOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string){
+    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
+    const supply = calcSupplyInOtherToBase(
+        convertToFixed18(target),
         {"other":convertToFixed18(pool.other),
         "base":convertToFixed18(pool.base)},
         convertToFixed18(exchangeFee),
         convertToFixed18(slippage) 
     )
-    return calcSwapTargetAmount(suite, account, target, supply, otherSymbol, baseSymbol) 
+    // console.log((1 - 0.05) * 10000 * 10000 / (10000 - target / (1 - 0.001)) - 10000)
+    // console.log(calcSwapSupplyAmount(target, 10000, 10000, convertToFixed18(0.001), convertToFixed18(0.05)))
+    // console.log(target, convertToFixed18(pool.other).toNumber(), convertToFixed18(pool.base).toNumber(), supply.toNumber())
+    console.log("supplyOtherToBase: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": convertToFixed18(supply).toNumber(), "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
+    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber(), supplySymbol, convertToFixed18(target).toNumber(), targetSymbol) 
 
 }
 
 // other -=-> base
-export async function targetOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, otherSymbol:string, baseSymbol:string){
-    const pool = await (suite.api.derive as any).dex.pool(otherSymbol)
+export async function targetOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string){
+    const pool = await (suite.api.derive as any).dex.pool(supplySymbol)
     const target = calcTargetInOtherToBase(
       convertToFixed18(supply),
       {"other":convertToFixed18(pool.other),
@@ -90,28 +92,29 @@ export async function targetOtherToBase(suite:Suite, account: KeyringPair, excha
       convertToFixed18(exchangeFee),
       convertToFixed18(slippage)
     )
-    console.log("targetOtherToBase: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "otherSymbol":otherSymbol, "baseSymbol": baseSymbol}))
-    return calcSwapTargetAmount(suite, account, target, supply, otherSymbol, baseSymbol)
+    console.log("targetOtherToBase: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "target":Fixed18.fromNatural(target as any).toNumber(), "targetSymbol": targetSymbol}))
+    return calcSwapAmount(suite, account, supply, supplySymbol, target, targetSymbol)
 }
 
 //base ---> other
-export async function supplyBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, baseSymbol:string, otherSymbol:string){
-    const pool = await(suite.api.derive as any).dex.pool(otherSymbol)
-    const target = calcSupplyInBaseToOther(
-        convertToFixed18(supply),
+export async function supplyBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string){
+    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
+    // 想换amount个 aca，需要提供的 ausd 数量
+    const supply = calcSupplyInBaseToOther(
+        convertToFixed18(target),
         {"other":convertToFixed18(pool.other),
         "base":convertToFixed18(pool.base)},
         convertToFixed18(exchangeFee),
         convertToFixed18(slippage)
         )
-    console.log("calcSupplyInBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "otherSymbol":otherSymbol, "baseSymbol": baseSymbol}))
-    calcSwapTargetAmount(suite, account, target, supply, baseSymbol, otherSymbol)
+    console.log("supplyBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": convertToFixed18(supply).toNumber(), "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
+    return calcSwapAmount(suite, account, supply, targetSymbol, target, supplySymbol)
 }
 
 //base ---> other
-export async function targetBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, baseSymbol:string, otherSymbol:string) {
-    const pool = await(suite.api.derive as any).dex.pool(otherSymbol)
-
+export async function targetBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
+    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
+    // 提供amount 能换到的 aca 数量 
     const target = calcTargetInBaseToOther(
       convertToFixed18(supply),
       {"other":convertToFixed18(pool.other),
@@ -119,32 +122,32 @@ export async function targetBaseToOther(suite:Suite, account:KeyringPair, exchan
       convertToFixed18(exchangeFee),
       convertToFixed18(slippage)
       )
-    console.log("calcTargetInBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "otherSymbol":otherSymbol, "baseSymbol": baseSymbol}))
-    calcSwapTargetAmount(suite, account, target, supply, baseSymbol, otherSymbol)
+    console.log("targetBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
+    return calcSwapAmount(suite, account, supply, targetSymbol, target, supplySymbol)
   }
   
 // other ---> other
-  export async function supplyOtherToOther(suite:Suite,account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, otherSymbol01:string, otherSymbol02:string) {
-    const basePool = await(suite.api.derive as any).dex.pool(otherSymbol01)
-    const otherPool = await(suite.api.derive as any).dex.pool(otherSymbol02)
+  export async function supplyOtherToOther(suite:Suite,account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string) {
+    const basePool = await(suite.api.derive as any).dex.pool(supplySymbol)
+    const otherPool = await(suite.api.derive as any).dex.pool(targetSymbol)
     
-    const target = calcSupplyInOtherToOther(
-      convertToFixed18(supply),
+    const supply = calcSupplyInOtherToOther(
+      convertToFixed18(target),
       {"other":convertToFixed18(basePool.other), "base":convertToFixed18(basePool.base)},
       {"other":convertToFixed18(otherPool.other), "base":convertToFixed18(otherPool.base)},
       convertToFixed18(exchangeFee),
       convertToFixed18(slippage)
       )
-    console.log("calcSupplyInOtherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "otherSymbol01":otherSymbol01, "otherSymbol02": otherSymbol02}))
+    console.log("supplyOtherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
  
-    calcSwapTargetAmount(suite, account, target, supply, otherSymbol01, otherSymbol02)
+    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber() , supplySymbol , convertToFixed18(target).toNumber(), targetSymbol)
   }
 
 
   //other ---> other
-  export async function targetOherToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, otherSymbol01:string, otherSymbol02:string) {
-    const basePool = await(suite.api.derive as any).dex.pool(otherSymbol01)
-    const otherPool = await(suite.api.derive as any).dex.pool(otherSymbol02)
+  export async function targetOherToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
+    const basePool = await(suite.api.derive as any).dex.pool(supplySymbol)
+    const otherPool = await(suite.api.derive as any).dex.pool(targetSymbol)
     
     const target = calcTargetInOtherToOther(
       convertToFixed18(supply),
@@ -153,9 +156,9 @@ export async function targetBaseToOther(suite:Suite, account:KeyringPair, exchan
       convertToFixed18(exchangeFee),
       convertToFixed18(slippage)
       )
-    console.log("calcTargetInOtherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "otherSymbol01":otherSymbol01, "otherSymbol02": otherSymbol02}))
+    console.log("targetOherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
  
-    calcSwapTargetAmount(suite, account, target, supply, otherSymbol01, otherSymbol02)
+    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber(), supplySymbol, convertToFixed18(target).toNumber(), targetSymbol)
   }
   
   
