@@ -4,7 +4,7 @@ import { Suite } from "../suite";
 
 export async function querySystemBalance(suite:Suite, address:string) {
     const account = await suite.api.query.system.account(address);
-    const balance = convertToFixed18(account['data']['free']).toNumber()
+    const balance = convertToFixed18((account as any)['data']['free']).toNumber()
     console.log("ACA" + " freeBalance：" + balance);
     return balance
 }
