@@ -33,7 +33,9 @@ export async function getStorage (suite: Suite, modules?: string[]) {
             )
         }, 100),
         reduce((acc, value) => {
-            acc[value[0]] = value[1];
+            if (value[1]) {
+                acc[value[0]] = value[1];
+            }
 
             return acc;
         }, result)

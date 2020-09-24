@@ -11,9 +11,11 @@ import { SRC } from '../utils/path';
 
     console.log('connect success');
     // const storagesPairs = await getStorage(suite, ['cdpEngine', 'loans', 'acalaOracle', 'system', 'tokens']);
-    const storagesPairs = await getStorage(suite, ['tokens']);
+    ['cdpEngine', 'loans', 'acalaOracle', 'system'].map(async (module) => {
+        const storagesPairs = await getStorage(suite, [module]);
+        fs.writeFileSync(path.resolve(SRC, `../storageData/storage-${module}.json`), JSON.stringify(storagesPairs, undefined, 2), { encoding: 'utf-8' });
+    })
 
-    fs.writeFileSync(path.resolve(SRC, '../storage.json'), JSON.stringify(storagesPairs, undefined, 2), { encoding: 'utf-8' });
 
     console.log('write success');
 })();
