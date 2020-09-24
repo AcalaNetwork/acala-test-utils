@@ -5,8 +5,8 @@ import { Suite } from "../suite";
 
 (async () => {
     const suite = new Suite();
-
-    await suite.connect();
+    const localWS = "ws://192.168.145.133:9944"
+    await suite.connect(localWS);
 
     console.log('connect success');
 
