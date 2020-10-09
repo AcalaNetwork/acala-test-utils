@@ -1,13 +1,39 @@
+// @ts-nocheck
 import { Suite } from "../suite";
-import { from } from "rxjs";
-import { mergeMap, map, reduce } from "rxjs/operators";
+import { from, BehaviorSubject } from "rxjs";
+import { mergeMap, map, reduce, filter, of } from "rxjs/operators";
+
+const PAGE_SIZE_KEYS = 1000;
+
+async function retrieveMapKeys (suite: Suite, headKey: string) {
+    let keys: any[] = [];
+    let next = true;
+    let startKey;
+
+    while (next) {
+        const result = await suite.api.rpc.state.getKeysPaged.apply(this, startKey ? [headKey, PAGE_SIZE_KEYS, startKey] : [headKey, PAGE_SIZE_KEYS]) ;
+
+        if (result) {
+            if (result.length === PAGE_SIZE_KEYS) {
+                startKey = result[PAGE_SIZE_KEYS - 1].toHex();
+            } else {
+                next = false;
+            }
+        }
+
+        keys = keys.concat(result.map(item => item.toHex()));
+    }
+
+    return keys;
+}
+
 
 export async function getStorage (suite: Suite, modules?: string[]) {
     const prefixs: string[] = [];
 
     const _modules = modules ? modules : Object.keys(suite.api.query);
 
-   _modules.map(item => {
+    _modules.map(item => {
         const module = suite.api.query[item];
 
         Object.keys(module).map((key) => {
@@ -19,11 +45,8 @@ export async function getStorage (suite: Suite, modules?: string[]) {
 
     return from(prefixs).pipe(
         mergeMap((prefix: string) => {
-            return from(suite.api.rpc.state.getPairs(prefix)).pipe(
-                mergeMap((pair) => {
-                    console.log(pair.length);
-                    return from(pair.map(i => i[0]));
-                }),
+            return from(retrieveMapKeys(suite, prefix)).pipe(
+                mergeMap(i => from(i)),
                 mergeMap((i) => {
                     console.log(`getting ${i.toString()}`);
                     return from(suite.api.rpc.state.getStorage(i)).pipe(
