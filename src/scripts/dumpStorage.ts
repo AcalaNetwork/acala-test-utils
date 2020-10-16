@@ -14,6 +14,5 @@ import { SRC } from '../utils/path';
 
     fs.writeFileSync(path.resolve(SRC, path.resolve(__dirname, '../storageData/storage-test.json')), JSON.stringify(storagesPairs, undefined, 2), { encoding: 'utf-8' });
 
-
     console.log('write success');
 })();

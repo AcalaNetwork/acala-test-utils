@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d4628144-0a32-40a4-b3da-7ac40f380847" name="Default Changelist" comment="add test case">
+      <change afterPath="$PROJECT_DIR$/.idea/acala-test-utils.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scripts/setStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/__tests__/dex/dexOtherToOther.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/dex/dexOtherToOther.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/getStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/getStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/dumpStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/dumpStorage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scripts/testLoansLiquidity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/testLoansLiquidity.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBowerSettings">
+    <node-interpreter value="project" />
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectId" id="1htZVF5QOEDmofLjtpbHSUK7L77" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+    <property name="ts.external.directory.path" value="E:\GitHub\acala-test-utils\node_modules\typescript\lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\GitHub\acala-test-utils\src\__tests__\dex" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="fixed 128 constructor.constructor should work" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/src/__tests__/fixed-18.spec.ts" />
+      <test-names>
+        <test-name value="fixed 128 constructor" />
+        <test-name value="constructor should work" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.fixed 128 constructor.constructor should work" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4628144-0a32-40a4-b3da-7ac40f380847" name="Default Changelist" comment="" />
+      <created>1600832371823</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1600832371823</updated>
+      <workItem from="1600832373016" duration="28000" />
+      <workItem from="1600832466367" duration="123000" />
+      <workItem from="1600832872895" duration="2000" />
+      <workItem from="1600832936379" duration="191000" />
+      <workItem from="1600833690319" duration="3353000" />
+      <workItem from="1600843263335" duration="3571000" />
+      <workItem from="1600914601713" duration="10306000" />
+      <workItem from="1600999712212" duration="2172000" />
+      <workItem from="1601173821885" duration="5722000" />
+      <workItem from="1601259566206" duration="33000" />
+      <workItem from="1601259662628" duration="5570000" />
+      <workItem from="1601368863853" duration="4313000" />
+      <workItem from="1601449911833" duration="1218000" />
+      <workItem from="1602209783104" duration="822000" />
+    </task>
+    <task id="LOCAL-00001" summary="fix bug and improve dex test logic">
+      <created>1600842693922</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600842693922</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add test case">
+      <created>1600914917504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1600914917504</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix bug and improve dex test logic" />
+    <MESSAGE value="add test case" />
+    <option name="LAST_COMMIT_MESSAGE" value="add test case" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1011" y="447" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1600842049191">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1011" y="447" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1600842049191" />
+    <state x="1061" y="456" key="FileChooserDialogImpl" timestamp="1601259589354">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1061" y="456" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1601259589354" />
+    <state width="2539" height="401" key="GridCell.Tab.0.bottom" timestamp="1600842776249">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2539" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776249" />
+    <state width="2539" height="401" key="GridCell.Tab.0.center" timestamp="1600842776248">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2539" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776248" />
+    <state width="2539" height="401" key="GridCell.Tab.0.left" timestamp="1600842776248">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2539" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776248" />
+    <state width="2539" height="401" key="GridCell.Tab.0.right" timestamp="1600842776249">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state width="2539" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776249" />
+    <state x="834" y="342" key="SettingsEditor" timestamp="1600834347123">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="834" y="342" key="SettingsEditor/0.0.2560.1400@0.0.2560.1400" timestamp="1600834347123" />
+    <state x="873" y="420" key="Vcs.Push.Dialog.v2" timestamp="1600914923253">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="873" y="420" key="Vcs.Push.Dialog.v2/0.0.2560.1400@0.0.2560.1400" timestamp="1600914923253" />
+    <state x="1088" y="614" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600934163885">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1088" y="614" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.2560.1400@0.0.2560.1400" timestamp="1600934163885" />
+    <state x="946" y="433" key="search.everywhere.popup" timestamp="1600834048927">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="946" y="433" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1600834048927" />
+  </component>
+</project>

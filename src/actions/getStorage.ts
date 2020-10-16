@@ -33,7 +33,7 @@ export async function getStorage (suite: Suite, modules?: string[], keys?: strin
 
     const _modules = modules ? modules : Object.keys(suite.api.query);
 
-   _modules.map(item => {
+    _modules.map(item => {
         const module = suite.api.query[item];
 
         (keys ? keys : Object.keys(module)).map((key) => {

@@ -12,7 +12,7 @@ import { Suite } from "../suite";
 
     console.log('connect success');
 
-     await feedPrices(suite,  { DOT: 6, XBTC: 10000, RENBTC: 10000 });
+    await feedPrices(suite,  { DOT: 6, XBTC: 10000, RENBTC: 10000 });
     console.log('feed prices success');
 
     await setupLoans(suite);
