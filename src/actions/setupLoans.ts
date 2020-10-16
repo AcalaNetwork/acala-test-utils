@@ -16,7 +16,7 @@ const DefaultLoanConfigs: Config[] = [
         requiredRatio: 1.2,
         stabilityFee: 0.1 / (365 * 24 * 60 * 60 / 4),
         liquidationPenalty: 0.2,
-        liquidationRatio: 1.5,
+        liquidationRatio: 1,
         maximunTotalDebitValue: 1 * 10 ** 9
     },
     {
@@ -24,7 +24,7 @@ const DefaultLoanConfigs: Config[] = [
         requiredRatio: 1.2,
         stabilityFee: 0.1 / (365 * 24 * 60 * 60 / 4),
         liquidationPenalty: 0.2,
-        liquidationRatio: 1.5,
+        liquidationRatio: 1,
         maximunTotalDebitValue: 1 * 10 ** 9
     },
     {
@@ -32,7 +32,7 @@ const DefaultLoanConfigs: Config[] = [
         requiredRatio: 1.2,
         stabilityFee: 0.1 / (365 * 24 * 60 * 60 / 4),
         liquidationPenalty: 0.2,
-        liquidationRatio: 1.5,
+        liquidationRatio: 1,
         maximunTotalDebitValue: 1 * 10 ** 9
     },
     {
@@ -40,7 +40,7 @@ const DefaultLoanConfigs: Config[] = [
         requiredRatio: 1.2,
         stabilityFee: 0.1 / (365 * 24 * 60 * 60 / 4),
         liquidationPenalty: 0.2,
-        liquidationRatio: 1.5,
+        liquidationRatio: 1,
         maximunTotalDebitValue: 1 * 10 ** 9
     },
     {
@@ -48,7 +48,7 @@ const DefaultLoanConfigs: Config[] = [
         requiredRatio: 1.2,
         stabilityFee: 0.1 / (365 * 24 * 60 * 60 / 4),
         liquidationPenalty: 0.2,
-        liquidationRatio: 1.5,
+        liquidationRatio: 1,
         maximunTotalDebitValue: 1 * 10 ** 9
     }
 ]
