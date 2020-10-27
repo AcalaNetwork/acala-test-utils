@@ -5,7 +5,8 @@ import * as actions from '../actions';
 
 async function main () {
     const suite = new Suite();
-    const localWS = 'ws://127.0.0.1:9944'
+    const localWS = 'wss://node-6714447553211260928.rz.onfinality.io/ws'
+
     await suite.connect(localWS);
 
     const local = rpel.start('acala repl ->');
