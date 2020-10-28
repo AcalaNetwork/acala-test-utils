@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { retrieveMapKeys } from "../actions";
+import { getStorage } from "../actions";
 import { Suite } from "../suite";
 import { SRC } from '../utils/path';
 
@@ -10,14 +10,20 @@ import { SRC } from '../utils/path';
     await suite.connect('wss://node-6684611762228215808.jm.onfinality.io/ws');
 
     console.log('connect success');
-    let accounts = await retrieveMapKeys(suite, suite.api.query.system.account.keyPrefix());
 
-    accounts = accounts.map((key) => {
-        return suite.api.createType('AccountId', '0x' + key.slice(key.length - 64, key.length)).toString();
+    let accounts = await getStorage(suite, ['system'], ['account']);
+
+    const result: Record<any, any> = {};
+
+    Object.keys(accounts).map((item) => {
+
+        const account = suite.api.createType('AccountId', '0x' + item.slice(item.length - 64, item.length)).toString();
+        const data = suite.api.createType('AccountInfo', accounts[item]).toHuman();
+
+        result[account] = data;
     });
 
-    fs.writeFileSync(path.resolve(SRC, path.resolve(__dirname, '../storageData/account.json')), JSON.stringify(accounts, undefined, 2), { encoding: 'utf-8' });
-
+    fs.writeFileSync(path.resolve(SRC, path.resolve(__dirname, '../storageData/account.json')), JSON.stringify(result as any, undefined, 2), { encoding: 'utf-8' });
 
     console.log('write success');
 })();
