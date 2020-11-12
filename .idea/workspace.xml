@@ -23,16 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4628144-0a32-40a4-b3da-7ac40f380847" name="Default Changelist" comment="add test case">
-      <change afterPath="$PROJECT_DIR$/src/__tests__/dex/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__tests__/dex/dexTestCase.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/dataDog.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/priceDataDog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/dexLiquidity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/dexLiquidity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/queryBalance.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/queryBalance.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +131,7 @@
       <workItem from="1604647987057" duration="1760000" />
       <workItem from="1604891685460" duration="19450000" />
       <workItem from="1605084903646" duration="5753000" />
-      <workItem from="1605147054232" duration="19055000" />
+      <workItem from="1605147054232" duration="19519000" />
     </task>
     <task id="LOCAL-00001" summary="fix bug and improve dex test logic">
       <created>1600842693922</created>

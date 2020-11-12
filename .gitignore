@@ -5,4 +5,5 @@ storage.json
 .ideastorageData
 storageData
 src/utils/.env
-/src/__tests__/dex/.env
+src/__tests__/dex/.env
+ .idea
