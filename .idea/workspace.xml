@@ -23,17 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4628144-0a32-40a4-b3da-7ac40f380847" name="Default Changelist" comment="add test case">
-      <change afterPath="$PROJECT_DIR$/.idea/acala-test-utils.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/scripts/setStorage.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__tests__/dex/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/__tests__/dex/dexTestCase.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/dataDog.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/priceDataDog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__tests__/dex/dexOtherToOther.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/dex/dexOtherToOther.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/getStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/getStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/dumpStorage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/dumpStorage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scripts/testLoansLiquidity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scripts/testLoansLiquidity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/actions/dexLiquidity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/dexLiquidity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/queryBalance.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/queryBalance.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +42,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaScript File" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -69,7 +69,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Exchange" />
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
@@ -77,11 +77,14 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\GitHub\acala-test-utils\src\utils" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\GitHub\acala-test-utils\src\__tests__\dex" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.monitorEvents.js">
     <configuration name="fixed 128 constructor.constructor should work" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -96,8 +99,16 @@
       </test-names>
       <method v="2" />
     </configuration>
+    <configuration name="MonitorEvents.ts" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/utils/MonitorEvents.ts" working-dir="$PROJECT_DIR$/src/utils">
+      <method v="2" />
+    </configuration>
+    <configuration name="monitorEvents.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/utils/monitorEvents.js" working-dir="$PROJECT_DIR$/src/utils">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.monitorEvents.js" />
+        <item itemvalue="Node.js.MonitorEvents.ts" />
         <item itemvalue="Jest.fixed 128 constructor.constructor should work" />
       </list>
     </recent_temporary>
@@ -124,6 +135,11 @@
       <workItem from="1601368863853" duration="4313000" />
       <workItem from="1601449911833" duration="1218000" />
       <workItem from="1602209783104" duration="822000" />
+      <workItem from="1604041528771" duration="7767000" />
+      <workItem from="1604647987057" duration="1760000" />
+      <workItem from="1604891685460" duration="19450000" />
+      <workItem from="1605084903646" duration="5753000" />
+      <workItem from="1605147054232" duration="19055000" />
     </task>
     <task id="LOCAL-00001" summary="fix bug and improve dex test logic">
       <created>1600842693922</created>
@@ -144,6 +160,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/utils/MonitorEvents.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -163,30 +184,38 @@
     <option name="LAST_COMMIT_MESSAGE" value="add test case" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1038" y="501" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1605083456456">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1038" y="501" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1605083456456" />
     <state x="1011" y="447" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1600842049191">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1011" y="447" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1600842049191" />
-    <state x="1061" y="456" key="FileChooserDialogImpl" timestamp="1601259589354">
+    <state x="1061" y="456" key="FileChooserDialogImpl" timestamp="1605174156301">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1061" y="456" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1601259589354" />
-    <state width="2539" height="401" key="GridCell.Tab.0.bottom" timestamp="1600842776249">
+    <state x="1061" y="456" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1605174156301" />
+    <state width="2539" height="400" key="GridCell.Tab.0.bottom" timestamp="1605084887422">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776249" />
-    <state width="2539" height="401" key="GridCell.Tab.0.center" timestamp="1600842776248">
+    <state width="2539" height="400" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604139881126" />
+    <state width="2539" height="400" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1605084887422" />
+    <state width="2539" height="400" key="GridCell.Tab.0.center" timestamp="1605084887422">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776248" />
-    <state width="2539" height="401" key="GridCell.Tab.0.left" timestamp="1600842776248">
+    <state width="2539" height="400" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604139881126" />
+    <state width="2539" height="400" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1605084887422" />
+    <state width="2539" height="400" key="GridCell.Tab.0.left" timestamp="1605084887422">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776248" />
-    <state width="2539" height="401" key="GridCell.Tab.0.right" timestamp="1600842776249">
+    <state width="2539" height="400" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604139881126" />
+    <state width="2539" height="400" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1605084887422" />
+    <state width="2539" height="400" key="GridCell.Tab.0.right" timestamp="1605084887422">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2539" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1600842776249" />
+    <state width="2539" height="400" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604139881126" />
+    <state width="2539" height="400" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1605084887422" />
     <state x="834" y="342" key="SettingsEditor" timestamp="1600834347123">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>

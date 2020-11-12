@@ -4,3 +4,5 @@ node_modules
 storage.json
 .ideastorageData
 storageData
+src/utils/.env
+/src/__tests__/dex/.env

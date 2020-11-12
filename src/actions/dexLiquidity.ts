@@ -1,173 +1,104 @@
-import { Fixed18, calcTargetInOtherToBase, calcTargetInBaseToOther,convertToFixed18 ,calcSupplyInOtherToOther, calcTargetInOtherToOther, calcSupplyInOtherToBase, calcSupplyInBaseToOther } from "@acala-network/app-util";
-import { KeyringPair } from "@polkadot/keyring/types";
-import { Suite } from "../suite";
-// import { feedPrices } from "../actions/feedPrices";
+import {KeyringPair} from "@polkadot/keyring/types";
+import {Suite} from "../suite";
+import {FixedPointNumber, getPresetToken, TokenPair} from "@acala-network/sdk-core";
+import {getSupplyAmount, getTargetAmount} from "@acala-network/sdk-swap/help";
+import Keyring from "@polkadot/keyring";
+import {querySystemBalance, queryTokenBalance} from "../utils/queryBalance";
 
 
-// 查询流动性池子
-export async function queryLuidityPool(suite:Suite,currencyId:string) {
-    const pool = await suite.api.query.dex.liquidityPool(
-      currencyId
-    )
-    const pooList = [convertToFixed18((pool as any)[0]).toNumber(), convertToFixed18((pool as any)[1]).toNumber()]
-    console.log("queryLuidityPool：\n" + JSON.stringify({currencyId: currencyId, pool: pooList}))
-    return pooList
-  }
-
-export function dexAddLiquidity(suite:Suite, account: KeyringPair, asset: string, otherSupply:number , baseSupply:number){
+// 添加流动性
+export function AddLiquidity(suite: Suite, account: KeyringPair, currency_id_a: string, currency_id_b: string, currency_id_a_amount: number, currency_id_b_amount: number) {
     const tx = suite.api.tx.dex.addLiquidity(
-        asset,
-        Fixed18.fromNatural(otherSupply).innerToString(),
-        Fixed18.fromNatural(baseSupply).innerToString()
+        [{Token: currency_id_a}, {Token: currency_id_b}],
+        new FixedPointNumber(currency_id_a_amount).toChainData(),
+        new FixedPointNumber(currency_id_b_amount).toChainData()
     )
-    console.log("dexAddLiquidity: \n" + JSON.stringify({"account": account.address, "asset": asset, "otherSupply": Fixed18.fromNatural(otherSupply).innerToString(), "baseSupply": Fixed18.fromNatural(baseSupply).innerToString()}))
     return suite.send(account, tx)
 }
 
-
-export async function calcSwapAmount(suite:Suite, account: KeyringPair, supply:any, supplySymbol:string, target: any, targetSymbol:string){
-    const tx = suite.api.tx.dex.swapCurrency(
-        supplySymbol,
-        Fixed18.fromNatural(supply).innerToString(),
-        targetSymbol,
-        Fixed18.fromNatural(target).innerToString()
-      )
-    await suite.send(account, tx)
-    return {supply: Fixed18.fromNatural(supply).toNumber(), supplySymbol:supplySymbol, target: Fixed18.fromNatural(target).toNumber(), targetSymbol: targetSymbol}
+//根据原有池子和新价格，算出新池子数量
+export async function getPriceNeedAmount(suite: Suite, constant: FixedPointNumber, cexPrice: number) {
+    // 常数
+    // const constant = (oldPool as any)[0].toNumber() * ((oldPool as any)[1]).toNumber()
+    let newCoinPool = Math.sqrt(constant.toNumber() / cexPrice)
+    let newBasePool = constant.toNumber() / newCoinPool
+    return [new FixedPointNumber(newCoinPool), new FixedPointNumber(newBasePool)]
 }
 
 
-export async function swapAmount(swapType:string, direction:number, suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
-    console.log(swapType, direction)
-    const swapStatus = swapType == "target"
-    if (swapStatus){
-      switch(direction){
-        case 1:
-          return await targetOtherToBase(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-        case 2:
-          return await targetBaseToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-        case 3:
-          return await targetOherToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-      }
-    }else{
-      switch(direction){
-        case 1:
-          return await supplyOtherToBase(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-        case 2:
-          return await supplyBaseToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-        case 3:
-          return await supplyOtherToOther(suite, account, exchangeFee, slippage, supply, supplySymbol, targetSymbol)
-    
-      }
+// 查询流动性池子
+export async function queryLuidityPool(suite: Suite, currencyId_01: string, currencyId_02: string) {
+    let pairList = new TokenPair(getPresetToken(currencyId_01 as any), getPresetToken(currencyId_02 as any))
+    const pool = await suite.api.query.dex.liquidityPool(
+        pairList.toChainData()
+    )
+    // 根据传入的顺序返回
+    return currencyId_01 == (pairList.toChainData() as any)[0].Token ? [((pool as any)[0].toString()), ((pool as any)[1].toString())]:[((pool as any)[1].toString()), ((pool as any)[0].toString())]
 
+    // let baseIndex
+    // let coinIndex
+    // for (let i = 0; i < 2; i++) {
+    //     let token = (pairList.toChainData() as any)[i].Token
+    //     // console.log(token)
+    //     if (token == currencyId_02) {
+    //         baseIndex = i
+    //         if (i == 0) {
+    //             coinIndex = 1
+    //         } else {
+    //             coinIndex = 0
+    //         }
+    //         break
+    //     }
+    // }
+    // // 根据传入的顺序返回
+    // return [((pool as any)[coinIndex as any].toString()), ((pool as any)[baseIndex as any].toString())]
+}
+
+
+export async function swapIn(suite: Suite, account: KeyringPair, supplySymbol: string, targetSymbol: string, supplyAmount: FixedPointNumber, exchangeFee: any) {
+    let pairList = supplySymbol == "AUSD" || targetSymbol == "AUSD" ? [{Token: supplySymbol}, {Token: targetSymbol}] : [{Token: supplySymbol}, {Token: "AUSD"}, {Token: targetSymbol}]
+    let targetAmount
+    if (supplySymbol == "AUSD" || targetSymbol == "AUSD") {
+        let pool = await queryLuidityPool(suite, supplySymbol, targetSymbol)
+        targetAmount = getTargetAmount(FixedPointNumber.fromInner(pool[0]), FixedPointNumber.fromInner(pool[1]), supplyAmount, exchangeFee)
+    } else {
+        let supplyPool = await queryLuidityPool(suite, supplySymbol, "AUSD")
+        let supplyAUSDAmount = getTargetAmount(FixedPointNumber.fromInner(supplyPool[0]), FixedPointNumber.fromInner(supplyPool[1]), supplyAmount, exchangeFee)
+        let targetPool = await queryLuidityPool(suite, "AUSD", targetSymbol)
+        targetAmount = getTargetAmount(FixedPointNumber.fromInner(targetPool[0]), FixedPointNumber.fromInner(targetPool[1]), supplyAUSDAmount, exchangeFee)
     }
-    
-}
-
-// other -=-> base
-export async function supplyOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string){
-    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
-    const supply = calcSupplyInOtherToBase(
-        convertToFixed18(target),
-        {"other":convertToFixed18(pool.other),
-        "base":convertToFixed18(pool.base)},
-        convertToFixed18(exchangeFee),
-        convertToFixed18(slippage) 
+    let tx = await suite.api.tx.dex.swapWithExactSupply(
+        pairList,
+        supplyAmount.toChainData(),
+        targetAmount.toChainData()
     )
-    // console.log((1 - 0.05) * 10000 * 10000 / (10000 - target / (1 - 0.001)) - 10000)
-    // console.log(calcSwapSupplyAmount(target, 10000, 10000, convertToFixed18(0.001), convertToFixed18(0.05)))
-    // console.log(target, convertToFixed18(pool.other).toNumber(), convertToFixed18(pool.base).toNumber(), supply.toNumber())
-    console.log("supplyOtherToBase: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": convertToFixed18(supply).toNumber(), "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
-    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber(), supplySymbol, convertToFixed18(target).toNumber(), targetSymbol) 
-
+    return await suite.send(account, tx)
 }
 
-// other -=-> base
-export async function targetOtherToBase(suite:Suite, account: KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string){
-    const pool = await (suite.api.derive as any).dex.pool(supplySymbol)
-    const target = calcTargetInOtherToBase(
-      convertToFixed18(supply),
-      {"other":convertToFixed18(pool.other),
-      "base":convertToFixed18(pool.base)},
-      convertToFixed18(exchangeFee),
-      convertToFixed18(slippage)
+export async function swapOut(suite: Suite, account: KeyringPair, supplySymbol: string, targetSymbol: string, targetAmount: FixedPointNumber, exchangeFee: any) {
+    let pairList = supplySymbol == "AUSD" || targetSymbol == "AUSD" ? [{Token: supplySymbol}, {Token: targetSymbol}] : [{Token: supplySymbol}, {Token: "AUSD"}, {Token: targetSymbol}]
+    let supplyAmount
+    if (supplySymbol == "AUSD" || targetSymbol == "AUSD") {
+        let pool = await queryLuidityPool(suite, supplySymbol, targetSymbol)
+        supplyAmount = getSupplyAmount(FixedPointNumber.fromInner(pool[0]), FixedPointNumber.fromInner(pool[1]), targetAmount, exchangeFee)
+    } else {
+        let targetPool = await queryLuidityPool(suite, "AUSD", targetSymbol)
+        let targetAUSDAmount = getSupplyAmount(FixedPointNumber.fromInner(targetPool[0]), FixedPointNumber.fromInner(targetPool[1]), targetAmount, exchangeFee)
+        let supplyPool = await queryLuidityPool(suite, supplySymbol, "AUSD")
+        supplyAmount = getSupplyAmount(FixedPointNumber.fromInner(supplyPool[0]), FixedPointNumber.fromInner(supplyPool[1]), targetAUSDAmount, exchangeFee)
+    }
+    console.log(supplyAmount.toNumber())
+    let tx = await suite.api.tx.dex.swapWithExactTarget(
+        pairList,
+        targetAmount.toChainData(),
+        supplyAmount.toChainData()
     )
-    console.log("targetOtherToBase: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "target":Fixed18.fromNatural(target as any).toNumber(), "targetSymbol": targetSymbol}))
-    return calcSwapAmount(suite, account, supply, supplySymbol, target, targetSymbol)
+    return await suite.send(account, tx)
 }
 
-//base ---> other
-export async function supplyBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string){
-    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
-    // 想换amount个 aca，需要提供的 ausd 数量
-    const supply = calcSupplyInBaseToOther(
-        convertToFixed18(target),
-        {"other":convertToFixed18(pool.other),
-        "base":convertToFixed18(pool.base)},
-        convertToFixed18(exchangeFee),
-        convertToFixed18(slippage)
-        )
-    console.log("supplyBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": convertToFixed18(supply).toNumber(), "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
-    return calcSwapAmount(suite, account, supply, targetSymbol, target, supplySymbol)
+export async function getDexFee(suite: Suite) {
+    let fee = suite.api.consts.dex.getExchangeFee.toJSON()
+    let numerator = (fee as any)[0]
+    let denominator = (fee as any)[1]
+    return {numerator: new FixedPointNumber(numerator), denominator: new FixedPointNumber(denominator)}
 }
-
-//base ---> other
-export async function targetBaseToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
-    const pool = await(suite.api.derive as any).dex.pool(supplySymbol)
-    // 提供amount 能换到的 aca 数量 
-    const target = calcTargetInBaseToOther(
-      convertToFixed18(supply),
-      {"other":convertToFixed18(pool.other),
-      "base":convertToFixed18(pool.base)},
-      convertToFixed18(exchangeFee),
-      convertToFixed18(slippage)
-      )
-    console.log("targetBaseToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
-    return calcSwapAmount(suite, account, supply, targetSymbol, target, supplySymbol)
-  }
-  
-// other ---> other
-  export async function supplyOtherToOther(suite:Suite,account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, target:number, supplySymbol:string, targetSymbol:string) {
-    const basePool = await(suite.api.derive as any).dex.pool(supplySymbol)
-    const otherPool = await(suite.api.derive as any).dex.pool(targetSymbol)
-    
-    const supply = calcSupplyInOtherToOther(
-      convertToFixed18(target),
-      {"other":convertToFixed18(basePool.other), "base":convertToFixed18(basePool.base)},
-      {"other":convertToFixed18(otherPool.other), "base":convertToFixed18(otherPool.base)},
-      convertToFixed18(exchangeFee),
-      convertToFixed18(slippage)
-      )
-    console.log("supplyOtherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
- 
-    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber() , supplySymbol , convertToFixed18(target).toNumber(), targetSymbol)
-  }
-
-
-  //other ---> other
-  export async function targetOherToOther(suite:Suite, account:KeyringPair, exchangeFee:Fixed18, slippage: Fixed18, supply:number, supplySymbol:string, targetSymbol:string) {
-    const basePool = await(suite.api.derive as any).dex.pool(supplySymbol)
-    const otherPool = await(suite.api.derive as any).dex.pool(targetSymbol)
-    
-    const target = calcTargetInOtherToOther(
-      convertToFixed18(supply),
-      {"other":convertToFixed18(basePool.other), "base":convertToFixed18(basePool.base)},
-      {"other":convertToFixed18(otherPool.other), "base":convertToFixed18(otherPool.base)},
-      convertToFixed18(exchangeFee),
-      convertToFixed18(slippage)
-      )
-    console.log("targetOherToOther: \n" + JSON.stringify({"account": account.address, "exchangeFee": convertToFixed18(exchangeFee).toString(), "slippage": convertToFixed18(slippage).toString(), "supply": supply, "supplySymbol":supplySymbol, "targetSymbol": targetSymbol}))
- 
-    return calcSwapAmount(suite, account, convertToFixed18(supply).toNumber(), supplySymbol, convertToFixed18(target).toNumber(), targetSymbol)
-  }
-  
-  
-  // 查询 dex 份额
-  export async function queryShares(suite:Suite, address:string, currencyId:string) {
-    const shares = await suite.api.query.dex.shares(
-          currencyId,
-          address
-       )
-    console.log(convertToFixed18(shares).toNumber())
-  }
-  
